@@ -1,0 +1,39 @@
+@-webkit-keyframes shine {
+    from {
+        -webkit-mask-position: 150%;
+    }
+
+    to {
+        -webkit-mask-position: -50%;
+    }
+}
+#side{
+    padding-left: 80px;padding-top: 80px;transition: all .3s ease-in-out;
+    .logo{}
+    .gnb{
+        nav > ul > li > a{
+            color: $gray;font-size: 18px;line-height: 3.56;letter-spacing: -0.9px;font-weight: 700;font-family: 'NanumSquare';
+        }
+        nav > ul > li:not(.active) a:hover{
+            color: #D2DAE0;
+            -webkit-mask-image: linear-gradient(-75deg, rgba(0,0,0,.6) 30%, #000 50%, rgba(0,0,0,.6) 70%);
+            -webkit-mask-size: 200%;
+            animation: shine 2s infinite;
+        }
+        nav > ul > li.active a{
+            color: $primary;
+            &::after{
+                content: '';display: inline-block;vertical-align: text-bottom;width: 8px;height: 8px;border-radius: 50%;background: $primary;margin-left:6px;
+            }
+        }
+    }
+    .util{
+        margin-top: 75px;
+        > ul > li{
+            & + li{margin-top: 22px;}
+            > a{
+                color: $gray;
+            }
+        }
+    }
+}

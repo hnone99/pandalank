@@ -1,0 +1,30 @@
+/*
+    [z-index]
+    #side : 1001
+    #dim : 1002
+*/
+html,
+body{
+    height: 100%;
+}
+body{
+    min-width:320px !important;
+}
+
+#side-block{
+    bottom: 0;float: none;height: 100vh;left: 0;position: fixed;top: 0;background: #000;z-index: 1001;width: 280px;
+}
+#center-block{
+    bottom: 0;float: none;height: 100vh;left: 280px;position: fixed;top: 0;z-index: 1001;width: 456px;border-right: 1px solid #d2dae0;
+    transition: margin-left .3s ease-in-out,width .3s ease-in-out;
+}
+#container-block{
+    margin-left: 736px;transition: margin-left .3s ease-in-out;padding: 0 111px;
+}
+
+@include media-breakpoint-down(lg) {
+
+}
+@include media-breakpoint-down(md) {
+
+}
