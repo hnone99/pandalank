@@ -170,7 +170,8 @@ select.form-control {
 }
 
 .form-control-lg {
-  height: $input-height-lg;
+  //height: $input-height-lg;
+  height: 56px;
   padding: $input-padding-y-lg $input-padding-x-lg;
   @include font-size($input-font-size-lg);
   line-height: $input-line-height-lg;

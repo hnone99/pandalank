@@ -40,3 +40,7 @@
     color: $breadcrumb-active-color;
   }
 }
+
+@include media-breakpoint-down(md) {
+  .breadcrumb{font-size: 1rem;font-weight: 700;}
+}

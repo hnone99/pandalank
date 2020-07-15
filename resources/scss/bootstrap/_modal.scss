@@ -177,27 +177,16 @@
 
 // Footer (for actions)
 .modal-footer {
-  //display: flex;
-  //flex-wrap: wrap;
-  //align-items: center; // vertically center
-  //justify-content: center; // Right align buttons with flex property because text-align doesn't work on flex items
-  //padding-bottom: 1.875rem;
-  //padding-top: 0;
-  padding: 50px 0;
+  display: flex;
+  align-items: center; // vertically center
+  justify-content: flex-end; // Right align buttons with flex property because text-align doesn't work on flex items
+  padding: 1rem;
+  border-top: $modal-footer-border-width solid $modal-footer-border-color;
+  @include border-bottom-radius($modal-content-border-radius);
 
-  //border-top: $modal-footer-border-width solid $modal-footer-border-color;
-  @include border-bottom-radius($modal-content-inner-border-radius);
-
-  // Place margin between footer elements
-  // This solution is far from ideal because of the universal selector usage,
-  // but is needed to fix https://github.com/twbs/bootstrap/issues/24800
-  // stylelint-disable-next-line selector-max-universal
-  > * {
-    //margin: $modal-footer-margin-between / 2;
-  }
-  > [class^=col]{
-    padding-left: 5px;padding-right: 5px;
-  }
+  // Easily place margin between footer elements
+  > :not(:first-child) { margin-left: .25rem; }
+  > :not(:last-child) { margin-right: .25rem; }
 }
 
 // Measure scrollbar width for padding body during modal show/hide
@@ -207,6 +196,15 @@
   width: 50px;
   height: 50px;
   overflow: scroll;
+}
+
+.modal-alert{
+  .modal-header{
+    border-bottom: 0;padding: 0;
+    .close{font-size: 28px;padding: 1rem;top: 0;transform: none;}
+  }
+  .modal-body{padding: 1.5rem;min-height: 120px;}
+  .alert-message{font-size: 18px;font-weight: 700;letter-spacing: -0.9px;text-align: center;}
 }
 
 // Scale up the modal

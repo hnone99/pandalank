@@ -1,3 +1,7 @@
+.pagination-wrap{
+  margin-top: 33px;
+}
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -8,24 +12,25 @@
 .page-link {
   position: relative;
   display: block;
-  width: 28px;
-  height: 28px;
-  line-height: 28px;
-  border-radius: 100px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  //border-radius: 100px;
   text-align: center;
   // padding: $pagination-padding-y $pagination-padding-x;
   // margin-left: -$pagination-border-width;
   // line-height: $pagination-line-height;
   color: $pagination-color;
-  background-color: $pagination-bg;
-  border: $pagination-border-width solid $pagination-border-color;
+  //background-color: $pagination-bg;
+  //border: $pagination-border-width solid $pagination-border-color;
+  font-weight: 700;
 
   &:hover {
     z-index: 2;
     color: $pagination-hover-color;
     text-decoration: none;
-    background-color: $pagination-hover-bg;
-    border-color: $pagination-hover-border-color;
+    //background-color: $pagination-hover-bg;
+    //border-color: $pagination-hover-border-color;
   }
 
   &:focus {
@@ -33,6 +38,8 @@
     outline: $pagination-focus-outline;
     box-shadow: $pagination-focus-box-shadow;
   }
+
+  i{margin-top: -1px;}
 }
 
 .page-item {

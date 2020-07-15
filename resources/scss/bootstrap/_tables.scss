@@ -36,34 +36,21 @@
     }
   }
 }
-@include media-breakpoint-down(lg) {
-  .table {
-    th,
-    td {
-      padding: 1rem;font-size: 0.875rem;
-    }
-    thead th{
-      padding: 1rem;white-space: nowrap;
-    }
-  }
-}
 
 @include media-breakpoint-down(md) {
   .table {
     th,
     td {
-      padding: .5rem;font-size: 0.8125rem;
-    }
-    thead th{
-      padding-top: .75rem;padding-bottom: .75rem;
+      padding-left: .5rem;padding-right: .5rem;font-size: 0.875rem;
     }
   }
 }
 
 @include media-breakpoint-down(sm) {
   .table {
-    th{
-      white-space: nowrap;
+    th,
+    td {
+
     }
   }
 }
@@ -72,10 +59,7 @@
   .table {
     th,
     td {
-      padding: .5rem .4rem;font-size: 0.75rem;
-    }
-    thead th{
-      padding: .75rem .4rem;
+      font-size: 0.75rem;
     }
   }
 }

@@ -1,15 +1,9 @@
 #center{
-    padding: 80px 72px;transition: all .3s ease-in-out;
 }
 
-.title-area{
-    h2{
-        strong{
-            display: block;font-weight: 700;line-height: 1.5;letter-spacing: -1px;margin-bottom: 10px;
-        }
-        span{
-            display: block;font-size: 32px;line-height: 1.31;letter-spacing: -1.6px;font-weight: 400;
-            &::after{content: '';display: inline-block;vertical-align: text-bottom;width: 8px;height: 8px;background: $primary;margin-left: 6px;}
-        }
+@include media-breakpoint-down(md) {
+    #center{
+        display: block;
+        max-width:312px;margin: 0 auto;
     }
 }

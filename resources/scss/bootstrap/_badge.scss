@@ -5,11 +5,11 @@
 
 .badge {
   display: inline-block;
-  padding: $badge-padding-y $badge-padding-x;
+  //padding: $badge-padding-y $badge-padding-x;
+  padding:3px 5px 2px;
   @include font-size($badge-font-size);
   font-weight: $badge-font-weight;
-  line-height: 20px;
-  padding-top: 2px;
+  line-height: 1;
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;

@@ -27,7 +27,6 @@
                 $('html').removeClass('is-mobile');
                 $('html').addClass('is-desktop');
             }
-            Header.barAnimation($('#gnb .current > a span'));
         },
         getBrowserSize : function(){
             this.bodyHeight = Math.max(
@@ -55,15 +54,14 @@
     var Header = {
         init : function(){
             Header.scrolling();
-            Header.search();
             Header.gnb();
             Header.side();
+            Header.category();
             window.addEventListener('mousewheel', Header.scrolling);
             window.addEventListener('touchmove', Header.scrolling);
             $(window).scroll(function(){
                 Header.scrolling();
             });
-            Header.barAnimation($('#gnb .current > a span'));
         },
         scrolling : function(e){
             var scrollTop = $(window).scrollTop();
@@ -82,135 +80,175 @@
             }else{
                 $('html').removeClass('is-scrolled');
             }
-
-            if(!$('.sub-layer').is(':visible')){
-                setTimeout(function(){
-                    Header.barAnimation($('#gnb .current > a span'));
-                },300);
-            }
-        },
-        search : function(){
-            $('#btn-search').on('click',function(e){
-                e.preventDefault();
-                $('html').addClass('open-search');
-            });
-            $('.search-close').on('click',function(e){
-                e.preventDefault();
-                $('html').removeClass('open-search');
-            });
-        },
-        barAnimation : function(t){
-            if($('#gnb').length > 0){
-                var target = t;
-                Header.barWidth = target.outerWidth();
-                Header.barLeft = target.position().left;
-                $('#gnb .bar').css({
-                    'width' : Header.barWidth,
-                    'left' : Header.barLeft
-                });
-            }
         },
         gnb : function(){
-            $('#gnb .dep1').on('mouseenter',function(e){
-                if(Init.breakpoint){
-                    $('html').addClass('open-submenu');
-                    $(this).siblings().removeClass('active');
-                    $(this).addClass('active');
-                    $(this).find('.sub-layer').addClass('show');
-                    var $active = $(this).find('>a span');
-                    Header.barAnimation($active);
-                }
-            });
-            $('#gnb').on('mouseleave',function(e){
-                if(Init.breakpoint){
-                    $('html').removeClass('open-submenu');
-                    $('.dep1').removeClass('active');
-                    $('.sub-layer').removeClass('show');
-                    Header.barAnimation($('#gnb .current > a span'));
-                }
-            });
+            const breakpoint = window.matchMedia( '(min-width:768px)' );
 
-            $('#gnb .dep1 > a').on('focus',function(e){
-                if(Init.breakpoint){
-                    $('html').addClass('open-submenu');
-                    $(this).closest('.dep1').siblings().removeClass('active');
-                    $(this).closest('.dep1').addClass('active');
-                    $('.sub-layer').removeClass('show');
-                    $(this).siblings('.sub-layer').addClass('show');
-                }
-            });
-            $('#gnb .dep1:last-child .dep2 li:last-child a').on('focusout',function(e){
-                if(Init.breakpoint){
-                    $('html').removeClass('open-submenu');
-                    $('.dep1').removeClass('active');
-                    $('.sub-layer').removeClass('show');
-                }
-            });
+            let gnbSwiper;
 
-            $('#gnb .dep1 > a').on('click',function(e){
-                if(Init.breakpoint){
-
-                }else{
-                    e.preventDefault();
-                    console.log('mobile');
-                    if(!$(this).closest('.dep1').hasClass('active')){
-                        $(this).closest('.dep1').siblings().removeClass('active');
-                        $(this).closest('.dep1').addClass('active');
-                    }
-                    else{
-                        $(this).closest('.dep1').removeClass('active');
-                    }
+            const breakpointChecker = function() {
+                if ( breakpoint.matches === true ) {
+                    if ( gnbSwiper !== undefined ) gnbSwiper.destroy( true, true );
+                    return;
+                } else if ( breakpoint.matches === false ) {
+                    return enableSwiper();
                 }
-            });
+            };
+            const enableSwiper = function() {
+                gnbSwiper = new Swiper('.gnb nav', {
+                    slidesPerView: 'auto',
+                    freeMode: true,
+                    slidesOffsetBefore: 12,
+                    slidesOffsetAfter: 12
+                });
+            };
+            breakpoint.addListener(breakpointChecker);
+            breakpointChecker();
         },
         side : function(){
-            $('#gnb').append($('.header-top .lang').clone());
-            $('#btn-menu').on('click',function(e){
+            $('.btn-menu').on('click',function(e){
                 e.preventDefault();
-                $('html').addClass('open-side');
+                $('html').toggleClass('open-side');
             });
-            $('#btn-menu-close, #header-dim').on('click',function(e){
-                e.preventDefault();
-                $('html').removeClass('open-side');
-            });
+        },
+        category : function(){
+            const breakpoint = window.matchMedia( '(min-width:1279px)' );
+
+            let categorySwiper;
+
+            const breakpointChecker = function() {
+                if ( breakpoint.matches === true ) {
+                    if ( categorySwiper !== undefined ) categorySwiper.destroy( true, true );
+                    return;
+                } else if ( breakpoint.matches === false ) {
+                    return enableSwiper();
+                }
+            };
+            const enableSwiper = function() {
+                categorySwiper = new Swiper('.category nav', {
+                    slidesPerView: 'auto',
+                    freeMode: true,
+                    slidesOffsetBefore: 12,
+                    slidesOffsetAfter: 12
+                });
+            };
+            breakpoint.addListener(breakpointChecker);
+            breakpointChecker();
         },
     };
 
-    var Floating = {
+    var Layout = {
         init : function(){
-            if($('.buy-bottom').length > 0){
-                Floating.scrolling();
-                Floating.toggle();
-                window.addEventListener('mousewheel', Floating.scrolling);
-                window.addEventListener('touchmove', Floating.scrolling);
-                $(window).scroll(function(){
-                    Floating.scrolling();
-                });
-            }
+            Layout.resize();
+            window.addEventListener("resize", this.resize);
         },
-        scrolling: function(){
-            var scrollTop = $(window).scrollTop();
-
-            var offsetTop = $('.product-detail>.detail .btn-area').offset().top;
-            offsetTop = Number(offsetTop);
-
-            if(scrollTop > offsetTop){
-                $('html').addClass('is-bottom-floating');
-                $('#footer-block').css('padding-bottom',$('.buy-bottom').outerHeight());
-            }else{
-                $('html').removeClass('is-bottom-floating');
-                $('#footer-block').css('padding-bottom','0');
-            }
-        },
-        toggle: function(){
-            $('.buy-bottom .toggler').on('click',function(){
-                if($('html').hasClass('is-bottom-floating-fold')){
-                    $('#footer-block').css('padding-bottom','0 !important');
-                    $('html').removeClass('is-bottom-floating-fold');
-                }else{
-                    $('#footer-block').css('padding-bottom',$('.buy-bottom').outerHeight());
-                    $('html').addClass('is-bottom-floating-fold');
+        resize: function(){
+            Init.breakpoint = window.matchMedia('(min-width:1366px)').matches;
+            if(!Init.breakpoint){
+                if(Init.bodyWidth){
+                    $('html').addClass('is-collapsed');
                 }
+            }
+            else{
+                $('html').removeClass('is-collapsed');
+            }
+        }
+    };
+
+    var Tab = {
+        init : function(){
+            Tab.active();
+        },
+        active: function(){
+            $('.tab a').on('click',function(e){
+                e.preventDefault();
+                $(this).parent('li').siblings().removeClass('active');
+                $(this).parent('li').addClass('active');
+                $(this).closest('.tab').attr('data-position',$(this).parent('li').index() + 1);
+            });
+        }
+    };
+
+    var Dropdown = {
+        init : function(){
+            Dropdown.active();
+            //드롭박스 디폴트 텍스트
+            $('.dropdown').each(function(e) {
+                $(this).attr('data-default',$(this).find('.dropdown-value').text());
+            });
+            //드롭박스 리스트 높이만큼 margin 세팅
+            $('.dropdown-box').each(function(e) {
+                var boxHeight = $(this).outerHeight();
+                $(this).closest('.dropdown').css('margin-bottom',boxHeight + 25);
+            });
+        },
+        active : function(){
+            $('.dropdown').on('click', function(e) {
+                var $target = $(this).closest(".dropdown");
+
+                if($target.hasClass('active')){
+                    $(this).removeClass('active');
+                    $('html').removeClass('open-dropdown');
+                }else{
+                    $(".dropdown.active").removeClass('active');
+                    $(this).addClass('active');
+                    $('html').addClass('open-dropdown');
+                }
+            });
+            $('.dropdown-list > div').on('click', function(e) {
+                $(this).closest('.dropdown').find('.dropdown-value').text($(this).text());
+                if($(this).text() !== $(this).closest('.dropdown').attr('data-default')){
+                    $(this).closest('.dropdown').find('.dropdown-value').addClass('filled');
+                    $(this).siblings().removeClass('text-primary');
+                    $(this).addClass('text-primary');
+                }else{
+                    $(this).closest('.dropdown').find('.dropdown-value').removeClass('filled');
+                }
+            });
+            $(document).click(function(e) {
+                if(!$('.dropdown').has(e.target).length){
+                    $(".dropdown.active").removeClass('active');
+                    $('html').removeClass('open-dropdown');
+                }
+            });
+        }
+    };
+
+    var UiFunction = {
+        init : function(){
+            //datepicker
+            $('[data-event="datepicker"]').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'yy-mm-dd'
+            });
+
+            //textarea focus
+            $('.comment-textarea textarea').on('focus',function(){
+                $(this).closest('.box').addClass('active');
+            });
+
+            //좋아요
+            $('.icon-heart').on('click',function(){
+                if ($(this).find('.heart-fill').hasClass('heart-filled')) {
+                    $(this).find('.heart-fill').removeClass('heart-filled');
+                    $(this).removeClass('animation-grow');
+
+                } else {
+                    $(this).find('.heart-fill').addClass('heart-filled');
+                    $(this).addClass('animation-grow');
+                }
+            });
+
+            //검색영역 토글
+            $('.btn-collapse').on('click',function(){
+                $('html').toggleClass('is-collapsed');
+            });
+
+            //게시판 형식 list/view 토글
+            $('.board-list .subject a').on('click',function(e){
+                e.preventDefault();
+                $(this).closest('li').toggleClass('active');
             });
         }
     };
@@ -223,133 +261,12 @@
             //goTop();
             Init.defaults();
             Header.init();
-            Floating.init();
+            Layout.init();
+            Tab.init();
+            Dropdown.init();
+            UiFunction.init();
         }, 200);
-
-        //select
-        $("select.custom-select").selectmenu();
-
-        //single datepicker
-        $('[data-event="datepicker"]').datepicker({
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: 'yy-mm-dd'
-        });
-
-        //테이블 내 체크박스 전체 선택
-        $('[data-check="all"]').on('change', function(){
-            if ($(this).prop('checked')) {
-                $(this).closest('.table').find('tbody .custom-checkbox .custom-control-input').prop('checked', true);
-            } else {
-                $(this).closest('.table').find('tbody .custom-checkbox .custom-control-input').prop('checked', false);
-            }
-        });
-
-        //기타 라디오 선택시 input toggle
-        $('input[type=radio]').on('change', function(){
-            $('[data-check="etc"]').each(function(){
-                if ($(this).prop('checked')) {
-                    $($(this).attr('data-match')).show();
-                } else {
-                    $($(this).attr('data-match')).hide();
-                }
-            });
-        });
-
-        //날짜 전체 선택
-        $('[data-check="allday"]').on('change', function(){
-            if ($(this).prop('checked')) {
-                $($(this).attr('data-match')).attr('disabled', true);
-            } else {
-                $($(this).attr('data-match')).attr('disabled', false);
-            }
-        });
-
-        //수량 입력
-        $('.spinner button').on('click',function(){
-            var max = parseInt($(this).closest('.spinner').attr('data-max'));
-            var min = parseInt($(this).closest('.spinner').attr('data-min'));
-            var count = $(this).siblings('.spinner-input').val();
-
-            if($(this).hasClass('spinner-increment')){
-                if(count < max){
-                    count++;
-                    $(this).siblings('.spinner-input').val(count);
-                    $(this).siblings('.spinner-decrement').prop('disabled',false);
-                    $(this).prop('disabled',false);
-                }
-                if(count == max){
-                    $(this).prop('disabled',true);
-                }
-            }
-            else if($(this).hasClass('spinner-decrement')){
-                if(count > min){
-                    count--;
-                    $(this).siblings('.spinner-input').val(count);
-                    $(this).siblings('.spinner-increment').prop('disabled',false);
-                    $(this).prop('disabled',false);
-                }
-                if(count == min){
-                    $(this).prop('disabled',true);
-                }
-            }
-        });
-        $('.spinner-input').on('keyup',function(){
-            var max = parseInt($(this).closest('.spinner').attr('data-max'));
-            var min = parseInt($(this).closest('.spinner').attr('data-min'));
-            var count = parseInt($(this).val());
-            if(count > max){
-                $(this).siblings('.spinner-decrement').prop('disabled',false);
-                $(this).siblings('.spinner-increment').prop('disabled',true);
-                $(this).val(max);
-            }else if(count == max){
-                $(this).siblings('.spinner-decrement').prop('disabled',false);
-                $(this).siblings('.spinner-increment').prop('disabled',true);
-            }
-            else if(count < min){
-                $(this).siblings('.spinner-increment').prop('disabled',false);
-                $(this).siblings('.spinner-decrement').prop('disabled',true);
-                $(this).val(min);
-            }
-            else if(count == min){
-                $(this).siblings('.spinner-increment').prop('disabled',false);
-                $(this).siblings('.spinner-decrement').prop('disabled',false);
-            }
-            else if(min < count && count < max){
-                $(this).siblings('.spinner-increment').prop('disabled',false);
-                $(this).siblings('.spinner-decrement').prop('disabled',false);
-            }
-        });
     });
+
 })(jQuery);
 
-function byteCheck(obj, maxByte, textTarget){
-    var str = obj.value;
-    var str_len = str.length;
-
-    var rbyte = 0;
-    var rlen = 0;
-    var one_char = "";
-    var str2 = "";
-
-    for (var i = 0; i < str_len; i++) {
-        one_char = str.charAt(i);
-        if (escape(one_char).length > 4) {
-            rbyte += 1; //한글2Byte
-        } else {
-            rbyte++; //영문 등 나머지 1Byte
-        }
-        if (rbyte <= maxByte) {
-            rlen = i + 1; //return할 문자열 갯수
-        }
-    }
-
-    if (rbyte > maxByte) {
-        alert("메세지는 최대 " + maxByte + "자를 초과할 수 없습니다.");
-        str2 = str.substr(0, rlen); //문자열 자르기
-        obj.value = str2;
-        byteCheck(obj, maxByte);
-    } else {
-        $(textTarget).text(rbyte);
-    }
-}
