@@ -250,13 +250,29 @@
                 e.preventDefault();
                 $(this).closest('li').toggleClass('active');
             });
+
+            //툴팁
+            $('[data-toggle=pop-over]').on('mouseenter',function(e){
+                Init.breakpoint = window.matchMedia('(min-width:992px)').matches;
+                if(Init.breakpoint){
+                    $($(this).attr('href')).addClass('hover');
+                }
+            }).on('mouseleave',function(e){
+                if(Init.breakpoint){
+                    $($(this).attr('href')).removeClass('hover');
+                }
+            });
+            $('[data-toggle=pop-over]').on('click', function (e) {
+                Init.breakpoint = window.matchMedia('(min-width:992px)').matches;
+                if (!Init.breakpoint) {
+                    e.preventDefault();
+                    $($(this).attr('data-target-mobile')).modal('show');
+                }
+            });
         }
     };
 
     $(document).ready(function () {
-        $('#header-block').load('../_include/header.html');
-        $('#footer-block').load('../_include/footer.html');
-
         setTimeout(function () {
             //goTop();
             Init.defaults();

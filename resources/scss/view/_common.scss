@@ -33,7 +33,7 @@
         ul::before{left: 50%;}
     }
 }
-@include media-breakpoint-down(lg) {
+@include media-breakpoint-down(xl) {
     .tab{
         ul{
             max-width: 256px;
@@ -69,10 +69,6 @@
     .dropdown-list {
         max-height: 160px;overflow-x: hidden;
         > div{
-            //transition: background 0.3s, color 0.3s;border-radius: 4px;padding: .5rem;line-height: 1;
-            &:hover{
-                //background: $primary;color: #fff;
-            }
             a{display: block;padding: .35rem .5rem;}
             a:hover{color: $primary;}
         }
@@ -91,7 +87,7 @@
 @include media-breakpoint-down(md) {
     .dropdown{
         margin-bottom: 0 !important;
-        .dropdown-box{top: auto;bottom: -100%;left: 0;position: fixed;opacity: 1;padding: 1rem;}
+        .dropdown-box{top: auto;bottom: -100%;left: 0;position: fixed;opacity: 1;padding: 1rem;border-radius: 10px 10px 0 0;}
         .dropdown-list{
             max-height: 380px;
             > div{
@@ -102,10 +98,16 @@
             .dropdown-box{top: auto;bottom: 0;}
         }
     }
-
     html.open-dropdown{
         body{overflow: hidden;}
         .dim{opacity: 1;visibility: visible;}
+    }
+    .dropdown.ellipsis{
+        width: auto;height: auto;
+        .dropdown-value{
+            border: 0;padding: 0 10px;position: static;width: 20px;height: 20px;
+            &::before{display: none;}
+        }
     }
 }
 
@@ -170,7 +172,7 @@
 }
 
 .top-area{
-    display: flex;justify-content: space-between;margin-bottom: 70px;
+    display: flex;justify-content: space-between;margin-bottom: 47px;
     .text{margin-right: 15px;}
     .banner{min-width: 300px;}
 }
@@ -186,13 +188,25 @@
 .icon-next:hover{background-image: url('../images/icon-next-green.svg');}
 .icon-info{display: inline-block;width: 24px;height: 24px;background: url('../images/icon-info.svg') no-repeat 50% 50%;background-size: contain;}
 .th-icon-info{
-    display: inline-block;vertical-align: top;margin-left: 3px;margin-top: -2px;margin-bottom: -1px;
+    display: inline-block;vertical-align: top;margin-left: 3px;margin-top: -2px;margin-bottom: -1px;font-weight: 400;position: relative;
     .icon-info{vertical-align: top;}
+    &:hover{color: inherit;}
 }
 @include media-breakpoint-down(md) {
     .icon-info{width: 18px;height: 18px;}
     .th-icon-info{
         margin-top: 0;
+    }
+}
+
+.pop-over{
+    width: 312px;padding: 24px;background: #fff;border-radius: 10px;box-shadow: 0 10px 30px 0 #dee8ef;white-space: normal;letter-spacing: -0.9px;line-height: 1.6;position: absolute;left: 34px;top: 0;z-index: 1;opacity: 0;transition: all .15s;
+    .pop-over-head{font-weight: 700;font-size: 18px;margin-bottom: 15px;}
+    &.hover{opacity: 1;}
+}
+@include media-breakpoint-down(md) {
+    .pop-over{
+        display: none;
     }
 }
 
@@ -203,9 +217,9 @@
         .breadcrumb{margin-right: 10px;}
         .icon-info{display: block;}
     }
-    > .text-gray{margin-top: 2px;}
-    .btn-ellipsis{
-        position: absolute;right:0;top:1px;font-size: 18px;
+    > .text-gray{margin-top: 5px;font-size: 14px;font-family: 'NanumSquare';}
+    .dropdown.ellipsis{
+        position: absolute;right:0;top:1px;
     }
 }
 @include media-breakpoint-down(md) {
@@ -227,6 +241,7 @@
 
 .board{
     .sort{
+        .board-name{font-size: 16px;}
         a{color: $gray;font-weight: 700;}
         a.active{color: $black;}
     }
@@ -332,3 +347,4 @@
 
 
 .text-error{font-size: 13px;color: $danger;display: block;margin-top: 5px;}
+
